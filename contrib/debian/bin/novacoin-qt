@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+umask 077
+
+basedir=~/.GolfCoin
+dbfile="$basedir/DB_CONFIG"
+cfgfile="$basedir/GolfCoin.conf"
+
+[ -e "$basedir" ] || mkdir "$basedir"
+
+# GolfCoin does not clean up DB log files by default
+[ -e "$dbfile" ] || echo 'set_flags DB_LOG_AUTOREMOVE' > "$dbfile"
+
+exec /usr/lib/GolfCoin/GolfCoin-qt "$@"

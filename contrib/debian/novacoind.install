@@ -1,0 +1,2 @@
+debian/bin/GolfCoind usr/bin
+src/GolfCoind usr/lib/GolfCoin

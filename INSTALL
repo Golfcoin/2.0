@@ -1,0 +1,9 @@
+Building GolfCoin
+
+See doc/readme-qt.rst for instructions on building GolfCoin Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of GolfCoin.
+
+See doc/build-*.txt for instructions on building GolfCoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of GolfCoin.

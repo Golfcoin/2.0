@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=GolfCoin
+Comment=GolfCoin P2P Cryptocurrency
+Comment[ru]=GolfCoin, P2P криптовалюта
+Comment[fr]=GolfCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=GolfCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/GolfCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/GolfCoin80.xpm
+MimeType=x-scheme-handler/GolfCoin;
+Categories=Office;

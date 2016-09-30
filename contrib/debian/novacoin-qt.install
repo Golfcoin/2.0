@@ -1,0 +1,5 @@
+GolfCoin-qt usr/bin
+share/pixmaps/GolfCoin32.xpm usr/share/pixmaps
+share/pixmaps/GolfCoin80.xpm usr/share/pixmaps
+debian/GolfCoin-qt.desktop usr/share/applications
+debian/GolfCoin-qt.protocol usr/share/kde4/services/

@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: GolfCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# GolfCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable GolfCoin service.
+# GolfCoin_config (path): Set to /usr/local/etc/GolfCoin.conf by default.
+# GolfCoin_user:  The user account GolfCoin daemon runs as. It uses 'root' user by default.
+# GolfCoin_group: The group account GolfCoin daemon runs as. It uses 'wheel' group by default.
+# GolfCoin_datadir (str): Default to "/var/db/GolfCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=GolfCoin
+rcvar=GolfCoin_enable
+
+: ${GolfCoin_enable:=NO}
+: ${GolfCoin_config=/usr/local/etc/GolfCoin.conf}
+: ${GolfCoin_datadir=/var/db/GolfCoin}
+: ${GolfCoin_user="root"}
+: ${GolfCoin_group="wheel"}
+
+required_files=${GolfCoin_config}
+command=/usr/local/bin/GolfCoind
+GolfCoin_chdir=${GolfCoin_datadir}
+pidfile="${GolfCoin_datadir}/GolfCoind.pid"
+stop_cmd=GolfCoin_stop
+command_args="-conf=${GolfCoin_config} -datadir=${GolfCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+GolfCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${GolfCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${GolfCoin_user}:${GolfCoin_group} ${GolfCoin_datadir}
+}
+
+GolfCoin_prestart()
+{
+	if [ ! -d "${GolfCoin_datadir}/." ]; then
+		GolfCoin_create_datadir || return 1
+	fi
+}
+
+GolfCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+GolfCoin_stop()
+{
+    GolfCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${GolfCoin_config} -datadir=${GolfCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"
